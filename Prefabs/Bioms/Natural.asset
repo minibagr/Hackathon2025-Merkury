@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ce39a9d8620f8e46a26d69929357f32, type: 3}
+  m_Name: Natural
+  m_EditorClassIdentifier: 
+  theme: natural
+  terrainPrefab: {fileID: 8249897627177109406, guid: bd802e8a94c88a049aa4fb74f67d01b9, type: 3}
+  decorObjects:
+  - {fileID: 5037068359237780712, guid: 1eda26622a4686542953b056c6dc7786, type: 3}
