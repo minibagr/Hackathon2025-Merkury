@@ -13,9 +13,16 @@ public class Zoom : MonoBehaviour {
         ObjectLock.active = false;
     }
 
+    // Forbidden part (I don't know how this works even tho i wrote this)
+    // I added this as a fix, but the issue mysteriously disappeared.
+    // I'm too scared to delete it in case it comes back :(
     void Update() {
         if (!Input.GetKeyDown(KeyCode.Mouse0)) {
-            if (!zoom || m_Animation.isPlaying) return;
+            if (!zoom) return;
+            else if (m_Animation.isPlaying) {
+                Cursor.lockState = CursorLockMode.Locked;
+                return;
+            }
 
             ObjectLock.active = true;
             return;

@@ -1,16 +1,17 @@
+using UnityEngine.UI;
 using UnityEngine;
+using Unity.VisualScripting;
 
 public class Slot : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public Item itemInSlot;
+    public Image itemIconImage;
+    
+    [HideInInspector] public Image borderImage;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void Start() {borderImage = gameObject.transform.GetChild(0).GetComponent<Image>();}
+
+    public void UpdateUI() {
+        itemIconImage.sprite = itemInSlot.icon;
     }
 }

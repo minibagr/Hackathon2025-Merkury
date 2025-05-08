@@ -4,6 +4,7 @@ public class Player : MonoBehaviour
 {
     /* --- | Variables | --- */
     public static Transform player;
+    public static Quaternion cameraRotation;
 
     [SerializeField] private Transform playerCamera;
     [SerializeField] private float mouseSensitivity = 250.0f, clampAngle = 80.0f, rotY, rotX;
@@ -15,11 +16,13 @@ public class Player : MonoBehaviour
     /* --- | Code | --- */
     public void Start() {
         if (player == null) player = transform;
-        Cursor.lockState = CursorLockMode.None;
+        Cursor.lockState = CursorLockMode.Confined;
 
         Vector3 rot = transform.localRotation.eulerAngles;
         rotY = rot.y;
         rotX = rot.x;
+
+        cameraRotation = transform.localRotation;
     }
 
     private void Update() {
@@ -44,6 +47,7 @@ public class Player : MonoBehaviour
         Quaternion BodyRotation = Quaternion.Euler(0, rotY, 0);
 
         playerCamera.rotation = CameraRotation;
+        cameraRotation = CameraRotation;
         transform.rotation = BodyRotation;
 
         /* --- | Movement | --- */

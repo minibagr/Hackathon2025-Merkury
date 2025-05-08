@@ -1,16 +1,35 @@
 using UnityEngine;
 
-public class Item : MonoBehaviour
+public enum ItemType
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    Tool,
+    Consumable,
+    Material
+}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+public abstract class Item : ScriptableObject
+{
+    public string itemName;
+    public Sprite icon;
+    public ItemType itemType;
+}
+
+[CreateAssetMenu(menuName = "Items/Tool Item")]
+public class ToolItem : Item
+{
+    public GameObject toolPrefab; 
+    public int durability;
+}
+
+[CreateAssetMenu(menuName = "Items/Consumable Item")]
+public class ConsumableItem : Item
+{
+    public int healAmount;
+    public AudioClip useSound;
+}
+
+[CreateAssetMenu(menuName = "Items/Material Item")]
+public class MaterialItem : Item
+{
+    public int sellPrice;
 }

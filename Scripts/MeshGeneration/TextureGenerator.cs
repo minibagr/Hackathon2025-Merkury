@@ -1,0 +1,33 @@
+using UnityEngine;
+
+public static class TextureGenerator
+{
+    public static Texture2D TextureFromColourMap(Color[] colorMap, int widht, int height)
+    {
+        Texture2D texture = new Texture2D(widht, height);
+        texture.filterMode = FilterMode.Point;
+        texture.wrapMode = TextureWrapMode.Clamp;
+        texture.SetPixels(colorMap);
+        texture.Apply();
+        return texture;
+    }
+
+    public static Texture2D TextureFromHeightMap(float[,] heightMap)
+    {
+        int width = heightMap.GetLength(0);
+        int height = heightMap.GetLength(1);
+
+        Texture2D texture = new Texture2D(width, height);
+        Color[] colors = new Color[width * height];
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                colors[y * width + x] = Color.Lerp(Color.black, Color.white, heightMap[x, y]);
+            }
+        }
+
+        return TextureFromColourMap(colors, width, height);
+    }
+}
