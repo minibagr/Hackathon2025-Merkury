@@ -15,7 +15,7 @@ public class Money : MonoBehaviour {
     }
 
     public state UpdateMoney(float amount) {
-        if (amount < 0 && money < amount) return state.Fail;
+        if (amount < 0 && money < Mathf.Abs(amount)) return state.Fail;
 
         money += amount;
 
@@ -30,5 +30,13 @@ public class Money : MonoBehaviour {
         foreach (GameObject textObj in textObjs) {
             textObj.GetComponent<TMP_Text>().text = money.ToString();
         }
+    }
+
+    public static float GetMoney() {
+        return money;
+    }
+
+    public static void SetMoney(float amount) {
+        money = amount;
     }
 }
