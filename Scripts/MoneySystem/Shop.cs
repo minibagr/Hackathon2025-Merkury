@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Shop : MonoBehaviour {
+    public static Inventory inv;
+
     [SerializeField] private Item[] items;
     [SerializeField] private int index;
     [SerializeField] private TMP_Text itemName;
@@ -10,7 +12,7 @@ public class Shop : MonoBehaviour {
     [SerializeField] private Image img;
     [SerializeField] private Money money;
 
-    private void Awake() {
+    private void Start() {
         UpdateData();
     }
 
@@ -27,19 +29,18 @@ public class Shop : MonoBehaviour {
     }
 
     public void Buy() {
-        //Money.state state = money.UpdateMoney(-items[index].price);
-        Money.state state = money.UpdateMoney(-25);
+        if (Player.inventory.isFull()) return;
+
+        Money.state state = money.UpdateMoney(-items[index].price);
 
         if (state == Money.state.Fail) return;
 
-        Debug.Log("buy");
-        // TODO 1: Add item
+        Player.inventory.AddItem(items[index], 1);
     }
 
     private void UpdateData() {
         itemName.text = items[index].itemName;
-        //price.text = items[index].price;
-        price.text = "25";
+        price.text = items[index].price.ToString();
         img.sprite = items[index].icon;
     }
 }

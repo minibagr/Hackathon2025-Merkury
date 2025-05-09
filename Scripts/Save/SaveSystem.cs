@@ -10,6 +10,12 @@ public class SaveSystem : MonoBehaviour {
         CheckFile();
     }
 
+    void Start() {
+        if (saveFilePath != "") return;
+
+        CheckFile();
+    }
+
     private static void CheckFile() {
         string path = Application.persistentDataPath + "/save.json";
 

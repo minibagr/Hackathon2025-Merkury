@@ -14,6 +14,11 @@ public class Money : MonoBehaviour {
         UpdateAllMoneyUI();
     }
 
+    private void Start() {
+        money = 100;
+        UpdateAllMoneyUI();
+    }
+
     public state UpdateMoney(float amount) {
         if (amount < 0 && money < Mathf.Abs(amount)) return state.Fail;
 

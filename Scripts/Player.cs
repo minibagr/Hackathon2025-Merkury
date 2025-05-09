@@ -4,19 +4,28 @@ public class Player : MonoBehaviour
 {
     /* --- | Variables | --- */
     public static Transform player;
+    public static Inventory inventory;
     public static Quaternion cameraRotation;
+    public static float mouseSensitivity = 5f;
 
     [SerializeField] private Transform playerCamera;
-    [SerializeField] private float mouseSensitivity = 250.0f, clampAngle = 80.0f, rotY, rotX;
+    [SerializeField] private Sound sound;
+    [SerializeField] private float soundThreshold;
+    [SerializeField] private float clampAngle = 80.0f, rotY, rotX;
 
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Vector3 moveDir;
     [SerializeField] private float speed = 5f;
+    [SerializeField] private CursorLockMode startLockState = CursorLockMode.Locked;
+    [SerializeField] private GameObject itemHolder;
+    [SerializeField] private GameObject MenuUI;
+    [SerializeField] private GameObject DisableUI;
 
     /* --- | Code | --- */
     public void Start() {
         if (player == null) player = transform;
-        Cursor.lockState = CursorLockMode.Confined;
+        if (inventory == null) inventory = transform.parent.GetComponent<Inventory>();
+        Cursor.lockState = startLockState;
 
         Vector3 rot = transform.localRotation.eulerAngles;
         rotY = rot.y;
@@ -26,17 +35,20 @@ public class Player : MonoBehaviour
     }
 
     private void Update() {
+        if (Input.GetKeyDown(KeyCode.Escape) && ObjectLock.active) PauseGame();
+
         if (Time.timeScale == 0 || !ObjectLock.active) {
             if (moveDir.sqrMagnitude > 0) rb.linearVelocity = Vector3.zero;
+            itemHolder.SetActive(false);
             return;
-        }
+        } else itemHolder.SetActive(true);
 
         /* --- | Camera | --- */
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
-        rotY += mouseX * mouseSensitivity * Time.deltaTime;
-        rotX += mouseY * mouseSensitivity * Time.deltaTime;
+        rotY += mouseX * mouseSensitivity;
+        rotX += mouseY * mouseSensitivity;
 
         rotY = rotY % 360f;
         rotX = rotX % 360f;
@@ -61,5 +73,21 @@ public class Player : MonoBehaviour
         Vector3 velocity = moveDir * speed;
         velocity.y = rb.linearVelocity.y;
         rb.linearVelocity = velocity;
+
+        if (moveDir.sqrMagnitude > soundThreshold) sound.PlaySound();
+    }
+
+    public void PauseGame() {
+        if (Time.timeScale != 0) {
+            Time.timeScale = 0;
+            Cursor.lockState = CursorLockMode.Confined;
+            MenuUI.SetActive(true);
+            DisableUI.SetActive(false);
+        } else {
+            Time.timeScale = 1;
+            Cursor.lockState = CursorLockMode.Locked;
+            MenuUI.SetActive(false);
+            DisableUI.SetActive(true);
+        }
     }
 }
