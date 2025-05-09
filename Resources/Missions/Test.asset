@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 765f442844560c649b0b3a1da8da0dbf, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: 
-  items: []
-  reward: 0
+  items:
+  - {fileID: 11400000, guid: 1782a8303ee9ce74f90cf41cfd3fbbaf, type: 2}
+  - {fileID: 11400000, guid: a9a5f6679a9296d48902baf7d49dcc0a, type: 2}
+  amount: 0500000001000000
+  reward: 50

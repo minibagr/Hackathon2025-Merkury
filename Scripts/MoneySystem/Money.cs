@@ -19,7 +19,7 @@ public class Money : MonoBehaviour {
         UpdateAllMoneyUI();
     }
 
-    public state UpdateMoney(float amount) {
+    public static state UpdateMoney(float amount) {
         if (amount < 0 && money < Mathf.Abs(amount)) return state.Fail;
 
         money += amount;

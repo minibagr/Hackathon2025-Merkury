@@ -10,7 +10,6 @@ public class Shop : MonoBehaviour {
     [SerializeField] private TMP_Text itemName;
     [SerializeField] private TMP_Text price;
     [SerializeField] private Image img;
-    [SerializeField] private Money money;
 
     private void Start() {
         UpdateData();
@@ -31,7 +30,7 @@ public class Shop : MonoBehaviour {
     public void Buy() {
         if (Player.inventory.isFull()) return;
 
-        Money.state state = money.UpdateMoney(-items[index].price);
+        Money.state state = Money.UpdateMoney(-items[index].price);
 
         if (state == Money.state.Fail) return;
 

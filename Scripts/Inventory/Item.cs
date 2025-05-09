@@ -9,6 +9,7 @@ public class Item : ScriptableObject {
 
     public string itemName;
     public int price;
+    public int maxStack;
     public Sprite icon;
     public ItemType itemType;
 }
