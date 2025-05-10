@@ -1,33 +1,36 @@
 using UnityEngine;
+using System.Collections;
 
 public class MapDisplay : MonoBehaviour
 {
-    public enum DrawMode
-    {
-        NoiseMap,
-        Mesh,
-        FalloffMap,
-    }
+
+    public Renderer textureRender;
+    public MeshFilter meshFilter;
+    public MeshRenderer meshRenderer;
+
+
+    public enum DrawMode { NoiseMap, Mesh, FalloffMap };
     public DrawMode drawMode;
 
     public MeshSettings meshSettings;
     public HeightMapSettings heightMapSettings;
     public TextureData textureData;
+
     public Material terrainMaterial;
+
+
 
     [Range(0, MeshSettings.numSupportedLODs - 1)]
     public int editorPreviewLOD;
+    public bool autoUpdate;
 
-    public bool autoUpdate = false;
 
-    public Renderer textureRenderer;
-    public MeshFilter meshFilter;
-    public MeshRenderer meshRenderer;
+
 
     public void DrawMapInEditor()
     {
+        textureData.ApplyToMaterial(terrainMaterial);
         textureData.UpdateMeshHeights(terrainMaterial, heightMapSettings.minHeight, heightMapSettings.maxHeight);
-        textureData.ApplyMaterial(terrainMaterial);
         HeightMap heightMap = HeightMapGenerator.GenerateHeightMap(meshSettings.numVertsPerLine, meshSettings.numVertsPerLine, heightMapSettings, Vector2.zero);
 
         if (drawMode == DrawMode.NoiseMap)
@@ -44,12 +47,16 @@ public class MapDisplay : MonoBehaviour
         }
     }
 
+
+
+
+
     public void DrawTexture(Texture2D texture)
     {
-        textureRenderer.sharedMaterial.mainTexture = texture;
-        textureRenderer.transform.localScale = new Vector3(texture.width, 1, texture.height) / 10;
+        textureRender.sharedMaterial.mainTexture = texture;
+        textureRender.transform.localScale = new Vector3(texture.width, 1, texture.height) / 10f;
 
-        textureRenderer.gameObject.SetActive(true);
+        textureRender.gameObject.SetActive(true);
         meshFilter.gameObject.SetActive(false);
     }
 
@@ -57,9 +64,44 @@ public class MapDisplay : MonoBehaviour
     {
         meshFilter.sharedMesh = meshData.CreateMesh();
 
-        meshFilter.transform.localScale = Vector3.one * meshSettings.meshScale;
-
-        textureRenderer.gameObject.SetActive(false);
+        textureRender.gameObject.SetActive(false);
         meshFilter.gameObject.SetActive(true);
     }
+
+
+
+    void OnValuesUpdated()
+    {
+        if (!Application.isPlaying)
+        {
+            DrawMapInEditor();
+        }
+    }
+
+    void OnTextureValuesUpdated()
+    {
+        textureData.ApplyToMaterial(terrainMaterial);
+    }
+
+    void OnValidate()
+    {
+
+        if (meshSettings != null)
+        {
+            meshSettings.OnValuesUpdated -= OnValuesUpdated;
+            meshSettings.OnValuesUpdated += OnValuesUpdated;
+        }
+        if (heightMapSettings != null)
+        {
+            heightMapSettings.OnValuesUpdated -= OnValuesUpdated;
+            heightMapSettings.OnValuesUpdated += OnValuesUpdated;
+        }
+        if (textureData != null)
+        {
+            textureData.OnValuesUpdated -= OnTextureValuesUpdated;
+            textureData.OnValuesUpdated += OnTextureValuesUpdated;
+        }
+
+    }
+
 }

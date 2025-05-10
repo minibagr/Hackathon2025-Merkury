@@ -1,22 +1,23 @@
-using System.Threading;
-using System;
-using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using System;
+using System.Threading;
 
 public class ThreadedDataRequester : MonoBehaviour
 {
+
     static ThreadedDataRequester instance;
     Queue<ThreadInfo> dataQueue = new Queue<ThreadInfo>();
 
-    private void Awake()
+    void Awake()
     {
-        instance = FindAnyObjectByType<ThreadedDataRequester>();
+        instance = FindObjectOfType<ThreadedDataRequester>();
     }
 
     public static void RequestData(Func<object> generateData, Action<object> callback)
     {
-        ThreadStart threadStart = delegate
-        {
+        ThreadStart threadStart = delegate {
             instance.DataThread(generateData, callback);
         };
 
@@ -32,7 +33,8 @@ public class ThreadedDataRequester : MonoBehaviour
         }
     }
 
-    private void Update()
+
+    void Update()
     {
         if (dataQueue.Count > 0)
         {
@@ -54,5 +56,6 @@ public class ThreadedDataRequester : MonoBehaviour
             this.callback = callback;
             this.parameter = parameter;
         }
+
     }
 }

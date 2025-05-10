@@ -25,15 +25,17 @@ public static class Noise
         }
 
         float maxLocalNoiseHeight = float.MinValue;
-        float minNoiseHeight = float.MaxValue;
+        float minLocalNoiseHeight = float.MaxValue;
 
         float halfWidth = mapWidth / 2f;
         float halfHeight = mapHeight / 2f;
+
 
         for (int y = 0; y < mapHeight; y++)
         {
             for (int x = 0; x < mapWidth; x++)
             {
+
                 amplitude = 1;
                 frequency = 1;
                 float noiseHeight = 0;
@@ -49,36 +51,35 @@ public static class Noise
                     amplitude *= settings.persistance;
                     frequency *= settings.lacunarity;
                 }
+
                 if (noiseHeight > maxLocalNoiseHeight)
                 {
                     maxLocalNoiseHeight = noiseHeight;
                 }
-                if (noiseHeight < minNoiseHeight)
+                if (noiseHeight < minLocalNoiseHeight)
                 {
-                    minNoiseHeight = noiseHeight;
+                    minLocalNoiseHeight = noiseHeight;
                 }
-
                 noiseMap[x, y] = noiseHeight;
 
                 if (settings.normalizeMode == NormalizeMode.Global)
                 {
-                    float normalizedHeight = (noiseMap[x, y] + 1) / (maxPossibleHeight);
+                    float normalizedHeight = (noiseMap[x, y] + 1) / (maxPossibleHeight / 0.9f);
                     noiseMap[x, y] = Mathf.Clamp(normalizedHeight, 0, int.MaxValue);
                 }
             }
         }
 
-        if (settings.normalizeMode == NormalizeMode.Local) 
+        if (settings.normalizeMode == NormalizeMode.Local)
         {
             for (int y = 0; y < mapHeight; y++)
             {
                 for (int x = 0; x < mapWidth; x++)
                 {
-                    noiseMap[x, y] = Mathf.InverseLerp(minNoiseHeight, maxLocalNoiseHeight, noiseMap[x, y]);
+                    noiseMap[x, y] = Mathf.InverseLerp(minLocalNoiseHeight, maxLocalNoiseHeight, noiseMap[x, y]);
                 }
             }
         }
-            
 
         return noiseMap;
     }

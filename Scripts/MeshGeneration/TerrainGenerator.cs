@@ -1,12 +1,13 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
-using static UnityEditor.U2D.ScriptablePacker;
 
 public class TerrainGenerator : MonoBehaviour
 {
+
     const float viewerMoveThresholdForChunkUpdate = 25f;
-    const float sqrViewerMoveTresholdForChunkUpdate = viewerMoveThresholdForChunkUpdate * viewerMoveThresholdForChunkUpdate;
-    const float colliderGenerationDistanceThreshold = 5f;
+    const float sqrViewerMoveThresholdForChunkUpdate = viewerMoveThresholdForChunkUpdate * viewerMoveThresholdForChunkUpdate;
+
 
     public int colliderLODIndex;
     public LODInfo[] detailLevels;
@@ -17,26 +18,47 @@ public class TerrainGenerator : MonoBehaviour
 
     public Transform viewer;
     public Material mapMaterial;
+
     Vector2 viewerPosition;
     Vector2 viewerPositionOld;
+
     float meshWorldSize;
     int chunksVisibleInViewDst;
 
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
     List<TerrainChunk> visibleTerrainChunks = new List<TerrainChunk>();
 
-    private void Start()
+    void Start()
     {
+
+        textureSettings.ApplyToMaterial(mapMaterial);
         textureSettings.UpdateMeshHeights(mapMaterial, heightMapSettings.minHeight, heightMapSettings.maxHeight);
-        textureSettings.ApplyMaterial(mapMaterial);
 
         float maxViewDst = detailLevels[detailLevels.Length - 1].visibleDstThreshold;
         meshWorldSize = meshSettings.meshWorldSize;
         chunksVisibleInViewDst = Mathf.RoundToInt(maxViewDst / meshWorldSize);
+
+        SpawnPlayerAtCenter();
+
         UpdateVisibleChunks();
     }
 
-    private void Update()
+    void SpawnPlayerAtCenter()
+    {
+        // Get the center of the terrain
+        float centerX = meshSettings.numVertsPerLine / 2;
+        float centerY = meshSettings.numVertsPerLine / 2;
+
+        // Use the height map to find the height at the center position
+        HeightMap heightMap = HeightMapGenerator.GenerateHeightMap(meshSettings.numVertsPerLine, meshSettings.numVertsPerLine, heightMapSettings, Vector2.zero);
+        float centerHeight = heightMap.values[(int)centerX, (int)centerY];
+
+        // Create the player at the center
+        Vector3 spawnPosition = new Vector3(centerX, centerHeight, centerY);
+        viewer.parent.transform.position = spawnPosition;
+    }
+
+    void Update()
     {
         viewerPosition = new Vector2(viewer.position.x, viewer.position.z);
 
@@ -48,7 +70,7 @@ public class TerrainGenerator : MonoBehaviour
             }
         }
 
-        if ((viewerPositionOld - viewerPosition).sqrMagnitude > sqrViewerMoveTresholdForChunkUpdate)
+        if ((viewerPositionOld - viewerPosition).sqrMagnitude > sqrViewerMoveThresholdForChunkUpdate)
         {
             viewerPositionOld = viewerPosition;
             UpdateVisibleChunks();
@@ -72,7 +94,6 @@ public class TerrainGenerator : MonoBehaviour
             for (int xOffset = -chunksVisibleInViewDst; xOffset <= chunksVisibleInViewDst; xOffset++)
             {
                 Vector2 viewedChunkCoord = new Vector2(currentChunkCoordX + xOffset, currentChunkCoordY + yOffset);
-
                 if (!alreadyUpdatedChunkCoords.Contains(viewedChunkCoord))
                 {
                     if (terrainChunkDictionary.ContainsKey(viewedChunkCoord))
@@ -87,6 +108,7 @@ public class TerrainGenerator : MonoBehaviour
                         newChunk.Load();
                     }
                 }
+
             }
         }
     }
@@ -102,6 +124,7 @@ public class TerrainGenerator : MonoBehaviour
             visibleTerrainChunks.Remove(chunk);
         }
     }
+
 }
 
 [System.Serializable]
@@ -110,6 +133,7 @@ public struct LODInfo
     [Range(0, MeshSettings.numSupportedLODs - 1)]
     public int lod;
     public float visibleDstThreshold;
+
 
     public float sqrVisibleDstThreshold
     {

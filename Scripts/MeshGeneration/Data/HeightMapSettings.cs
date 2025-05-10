@@ -1,11 +1,14 @@
 using UnityEngine;
+using System.Collections;
 
-[CreateAssetMenu(fileName = "NoiseData")]
-public class HeightMapSettings : ScriptableObject
+[CreateAssetMenu()]
+public class HeightMapSettings : UpdatableData
 {
+
     public NoiseSettings noiseSettings;
 
     public bool useFalloff;
+
     public float heightMultiplier;
     public AnimationCurve heightCurve;
 
@@ -25,8 +28,13 @@ public class HeightMapSettings : ScriptableObject
         }
     }
 
-    private void OnValidate()
+#if UNITY_EDITOR
+
+    protected override void OnValidate()
     {
         noiseSettings.ValidateValues();
+        base.OnValidate();
     }
+#endif
+
 }

@@ -1,12 +1,15 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class HeightMapGenerator
 {
+
     public static HeightMap GenerateHeightMap(int width, int height, HeightMapSettings settings, Vector2 sampleCentre)
     {
         float[,] values = Noise.GenerateNoiseMap(width, height, settings.noiseSettings, sampleCentre);
 
-        AnimationCurve heightCurve_threadSafe = new AnimationCurve(settings.heightCurve.keys);
+        AnimationCurve heightCurve_threadsafe = new AnimationCurve(settings.heightCurve.keys);
 
         float minValue = float.MaxValue;
         float maxValue = float.MinValue;
@@ -15,7 +18,7 @@ public static class HeightMapGenerator
         {
             for (int j = 0; j < height; j++)
             {
-                values[i, j] *= heightCurve_threadSafe.Evaluate(values[i, j]) * settings.heightMultiplier;
+                values[i, j] *= heightCurve_threadsafe.Evaluate(values[i, j]) * settings.heightMultiplier;
 
                 if (values[i, j] > maxValue)
                 {
@@ -30,6 +33,7 @@ public static class HeightMapGenerator
 
         return new HeightMap(values, minValue, maxValue);
     }
+
 }
 
 public struct HeightMap

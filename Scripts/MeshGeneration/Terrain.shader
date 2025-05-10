@@ -76,9 +76,9 @@ Shader "Custom/Terrain"
             {
                 float3 scaledWorldPos = worldPos / scale;
                 
-                float3 xProjection = SAMPLE_TEXTURE2D_ARRAY(baseTextures, sampler_baseTextures, float2(scaledWorldPos.y, scaledWorldPos.z), textureIndex).rgb * blendAxes.x;
-                float3 yProjection = SAMPLE_TEXTURE2D_ARRAY(baseTextures, sampler_baseTextures, float2(scaledWorldPos.x, scaledWorldPos.z), textureIndex).rgb * blendAxes.y;
-                float3 zProjection = SAMPLE_TEXTURE2D_ARRAY(baseTextures, sampler_baseTextures, float2(scaledWorldPos.x, scaledWorldPos.y), textureIndex).rgb * blendAxes.z;
+                float3 xProjection = SAMPLE_TEXTURE2D_ARRAY(baseTextures, sampler_baseTextures, float2(scaledWorldPos.y, scaledWorldPos.z), textureIndex) * blendAxes.x;
+                float3 yProjection = SAMPLE_TEXTURE2D_ARRAY(baseTextures, sampler_baseTextures, float2(scaledWorldPos.x, scaledWorldPos.z), textureIndex) * blendAxes.y;
+                float3 zProjection = SAMPLE_TEXTURE2D_ARRAY(baseTextures, sampler_baseTextures, float2(scaledWorldPos.x, scaledWorldPos.y), textureIndex) * blendAxes.z;
 
                 return xProjection + yProjection + zProjection;
             }
