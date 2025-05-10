@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: Desert
   m_EditorClassIdentifier: Assembly-CSharp::Biome
-  name: desert
+  biomeName: desert
   heightMapSettings: {fileID: 11400000, guid: 4328bf4829e237a4c937913ec45dd33c, type: 2}
   meshSettings: {fileID: 11400000, guid: 5b25f69ec19dce340a68fd845b54e409, type: 2}
   textureData: {fileID: 11400000, guid: b2416deb3f9015447837c3c99c73e41d, type: 2}

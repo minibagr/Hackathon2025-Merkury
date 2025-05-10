@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: MaterialDatabase
   m_EditorClassIdentifier: 
   materials:
-  - name: wood
-    prefab: {fileID: 8249897627177109406, guid: bd802e8a94c88a049aa4fb74f67d01b9, type: 3}
+  - materialName: wood
+    prefab: {fileID: 8183159564932634977, guid: 361be9887a7fd5841b74d0064a720664, type: 3}
     associatedKeywords:
     - tree
     - trees
     - forest
-  - name: diamond
-    prefab: {fileID: 4760755367518824054, guid: 0f2b7d54c31c69a40877c1aacb3a745c, type: 3}
+  - materialName: diamond
+    prefab: {fileID: 4571112186590294487, guid: d759db3258aca4645b2039b05e4515ad, type: 3}
     associatedKeywords:
     - shiny
     - blue

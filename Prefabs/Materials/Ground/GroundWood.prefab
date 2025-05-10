@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: item
       value: 
       objectReference: {fileID: 11400000, guid: 1782a8303ee9ce74f90cf41cfd3fbbaf, type: 2}
+    - target: {fileID: 4857408406300298651, guid: d0003b02c23160e468c5476cdc94f492, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6690690481680045425, guid: d0003b02c23160e468c5476cdc94f492, type: 3}
       propertyPath: m_Name
       value: GroundWood

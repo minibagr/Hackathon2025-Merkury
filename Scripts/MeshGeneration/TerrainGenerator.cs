@@ -30,6 +30,12 @@ public class TerrainGenerator : MonoBehaviour
     List<TerrainChunk> visibleTerrainChunks = new List<TerrainChunk>();
     List<MaterialType> materials = new List<MaterialType>();
 
+    TerrainChunk topLeftChunk;
+    TerrainChunk topRightChunk;
+    TerrainChunk botLeftChunk;
+    TerrainChunk botRightChunk;
+
+
     public void CreateTerrain(Biome currentBiome, List<MaterialType> materials)
     {
         this.materials = materials;
@@ -48,7 +54,8 @@ public class TerrainGenerator : MonoBehaviour
         Debug.Log("Creating Terrain");
 
         UpdateVisibleChunks();
-        SpawnPlayerAtCenter();
+
+        CreateBoundary();
     }
 
     private void SpawnMaterialsInChunk(TerrainChunk chunk, MeshData meshData)
@@ -62,9 +69,6 @@ public class TerrainGenerator : MonoBehaviour
         int count = 50;
         Vector3[] positions = new Vector3[count];
         GameObject[] prefabs = new GameObject[count];
-
-        float chunkSize = meshSettings.meshWorldSize;
-        float spacing = chunkSize / meshSettings.numVertsPerLine;
 
         // Loop to spawn materials based on mesh height
         for (int i = 0; i < count; i++)
@@ -84,26 +88,39 @@ public class TerrainGenerator : MonoBehaviour
             GameObject mat = Instantiate(prefabs[i], positions[i], Quaternion.identity, chunk.meshObject.transform);
             mat.transform.position = positions[i];
         }
+
+        if (chunk.coord.x == 0 && chunk.coord.y == 0)
+        {
+            SpawnPlayerAtCenter(chunk, meshData);
+        }
     }
 
-
-
-    void SpawnPlayerAtCenter()
+    void SpawnPlayerAtCenter(TerrainChunk chunk, MeshData meshData)
     {
+        Vector3[] vertices = meshData.vertices;
+        Vector2 position = chunk.coord * chunk.meshSettings.meshWorldSize;
         viewer.parent.gameObject.SetActive(true);
         // Get the center of the terrain
-        float centerX = meshSettings.numVertsPerLine / 2;
-        float centerY = meshSettings.numVertsPerLine / 2;
-
-        // Use the height map to find the height at the center position
-        HeightMap heightMap = HeightMapGenerator.GenerateHeightMap(meshSettings.numVertsPerLine, meshSettings.numVertsPerLine, heightMapSettings, Vector2.zero);
-        float centerHeight = heightMap.values[(int)centerX, (int)centerY] + 2;
+        float centerX = vertices[(vertices.Length - 1) / 2].x;
+        float centerY = vertices[(vertices.Length - 1) / 2].z;
+        float centerHeight = vertices[(vertices.Length - 1) / 2].y + 2;
 
         // Create the player at the center
         Vector3 spawnPosition = new Vector3(centerX, centerHeight, centerY);
         viewer.parent.transform.position = spawnPosition;
     }
 
+    void CreateBoundary()
+    {
+        GameObject boundary = GameObject.Find("Boundary"); // Or create one dynamically
+        if (boundary != null)
+        {
+            BoundaryBox boundaryScript = boundary.GetComponent<BoundaryBox>();
+            boundaryScript.player = viewer;
+            boundaryScript.boundarySize = meshSettings.meshWorldSize * 4 * meshSettings.meshScale;
+            boundary.transform.position = Vector3.zero; // Centered on terrain
+        }
+    }
     void Update()
     {
         viewerPosition = new Vector2(viewer.position.x, viewer.position.z);
@@ -140,6 +157,7 @@ public class TerrainGenerator : MonoBehaviour
             for (int xOffset = -chunksVisibleInViewDst; xOffset <= chunksVisibleInViewDst; xOffset++)
             {
                 Vector2 viewedChunkCoord = new Vector2(currentChunkCoordX + xOffset, currentChunkCoordY + yOffset);
+
                 if (!alreadyUpdatedChunkCoords.Contains(viewedChunkCoord))
                 {
                     if (terrainChunkDictionary.ContainsKey(viewedChunkCoord))
@@ -150,6 +168,23 @@ public class TerrainGenerator : MonoBehaviour
                     {
                         TerrainChunk newChunk = new TerrainChunk(viewedChunkCoord, heightMapSettings, meshSettings, detailLevels, colliderLODIndex, transform, viewer, mapMaterial, OnHeightMapLoaded);
                         terrainChunkDictionary.Add(viewedChunkCoord, newChunk);
+
+                        if (viewedChunkCoord.x == 2 && viewedChunkCoord.y == 2)
+                        {
+                            topRightChunk = newChunk;
+                        }
+                        if (viewedChunkCoord.x == -2 && viewedChunkCoord.y == 2)
+                        {
+                            topLeftChunk = newChunk;
+                        }
+                        if (viewedChunkCoord.x == 2 && viewedChunkCoord.y == -2)
+                        {
+                            botRightChunk = newChunk;
+                        }
+                        if (viewedChunkCoord.x == -2 && viewedChunkCoord.y == -2)
+                        {
+                            botLeftChunk = newChunk;
+                        }
 
                         //newChunk.onHeightMapLoaded += OnHeightMapLoaded;
                         newChunk.onVisibilityChanged += OnTerrainChunkVisibilityChanged;
