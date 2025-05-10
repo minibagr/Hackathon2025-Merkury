@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 3f138ef7e91b13141992f4bbbd088897, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -123,5 +123,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 0}
   particleColor: {r: 1, g: 1, b: 1, a: 1}
+  sound: {fileID: 8300000, guid: efb95f14b30e7ed46be36528dd6b3dca, type: 3}
+  destroySound: {fileID: 8300000, guid: 1a126892fdab9424f8064cc44ec89ca9, type: 3}
   health: 0
-  dropAmountRange: {x: 0, y: 0}
+  radius: 0.5
+  dropObject: {fileID: 6690690481680045425, guid: d0003b02c23160e468c5476cdc94f492, type: 3}
+  dropAmountRange: {x: 3, y: 3}
+  terrainLayer:
+    serializedVersion: 2
+    m_Bits: 8

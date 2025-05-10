@@ -38,10 +38,13 @@ public class ThreadedDataRequester : MonoBehaviour
     {
         if (dataQueue.Count > 0)
         {
-            for (int i = 0; i < dataQueue.Count; i++)
+            lock (dataQueue)
             {
-                ThreadInfo threadInfo = dataQueue.Dequeue();
-                threadInfo.callback(threadInfo.parameter);
+                for (int i = 0; i < dataQueue.Count; i++)
+                {
+                    ThreadInfo threadInfo = dataQueue.Dequeue();
+                    threadInfo.callback(threadInfo.parameter);
+                }
             }
         }
     }

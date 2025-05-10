@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4107637924000950338, guid: d1f5c8c2f26c70a4ba9e6053a7118dab, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 478616f1b3cef6a45a1df55f5cb036cb, type: 2}
     - target: {fileID: 8628543945243009877, guid: d1f5c8c2f26c70a4ba9e6053a7118dab, type: 3}
       propertyPath: health
       value: 40
@@ -16,6 +20,10 @@ PrefabInstance:
       propertyPath: material
       value: 
       objectReference: {fileID: 11400000, guid: 1782a8303ee9ce74f90cf41cfd3fbbaf, type: 2}
+    - target: {fileID: 8628543945243009877, guid: d1f5c8c2f26c70a4ba9e6053a7118dab, type: 3}
+      propertyPath: dropObject
+      value: 
+      objectReference: {fileID: 7929162815557471550, guid: abe86e61bc623f542ab45fbc8de5e2ec, type: 3}
     - target: {fileID: 8628543945243009877, guid: d1f5c8c2f26c70a4ba9e6053a7118dab, type: 3}
       propertyPath: particleColor.b
       value: 0.12194369
@@ -27,14 +35,6 @@ PrefabInstance:
     - target: {fileID: 8628543945243009877, guid: d1f5c8c2f26c70a4ba9e6053a7118dab, type: 3}
       propertyPath: particleColor.r
       value: 0.6528301
-      objectReference: {fileID: 0}
-    - target: {fileID: 8628543945243009877, guid: d1f5c8c2f26c70a4ba9e6053a7118dab, type: 3}
-      propertyPath: dropAmountRange.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8628543945243009877, guid: d1f5c8c2f26c70a4ba9e6053a7118dab, type: 3}
-      propertyPath: dropAmountRange.y
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8672848839867693252, guid: d1f5c8c2f26c70a4ba9e6053a7118dab, type: 3}
       propertyPath: m_Name

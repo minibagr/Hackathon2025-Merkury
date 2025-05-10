@@ -3,11 +3,8 @@ using System.Collections;
 
 public static class MeshGenerator
 {
-
-
     public static MeshData GenerateTerrainMesh(float[,] heightMap, MeshSettings meshSettings, int levelOfDetail)
     {
-
         int skipIncrement = (levelOfDetail == 0) ? 1 : levelOfDetail * 2;
         int numVertsPerLine = meshSettings.numVertsPerLine;
 
@@ -56,6 +53,7 @@ public static class MeshGenerator
                     Vector2 vertexPosition2D = topLeft + new Vector2(percent.x, -percent.y) * meshSettings.meshWorldSize;
                     float height = heightMap[x, y];
 
+                    // Adjusting height for edge connection vertices
                     if (isEdgeConnectionVertex)
                     {
                         bool isVertical = x == 2 || x == numVertsPerLine - 3;
@@ -69,6 +67,7 @@ public static class MeshGenerator
                         height = heightMainVertexA * (1 - dstPercentFromAToB) + heightMainVertexB * dstPercentFromAToB;
                     }
 
+                    // Ensure proper alignment of height for material spawning
                     meshData.AddVertex(new Vector3(vertexPosition2D.x, height, vertexPosition2D.y), percent, vertexIndex);
 
                     bool createTriangle = x < numVertsPerLine - 1 && y < numVertsPerLine - 1 && (!isEdgeConnectionVertex || (x != 2 && y != 2));
@@ -91,13 +90,13 @@ public static class MeshGenerator
         meshData.ProcessMesh();
 
         return meshData;
-
     }
 }
 
+
 public class MeshData
 {
-    Vector3[] vertices;
+    public Vector3[] vertices;
     int[] triangles;
     Vector2[] uvs;
     Vector3[] bakedNormals;

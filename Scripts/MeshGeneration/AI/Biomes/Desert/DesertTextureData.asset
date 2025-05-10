@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 863c4072c2deb6d468e3e3f9b7168862, type: 3}
+  m_Name: DesertTextureData
+  m_EditorClassIdentifier: 
+  autoUpdate: 0
+  layers:
+  - texture: {fileID: 2800000, guid: 793969d27e380c1459fd59d974d588d5, type: 3}
+    tint: {r: 0.9597633, g: 1, b: 0, a: 0}
+    tintStrength: 0
+    startHeight: 0
+    blendStrength: 0
+    textureScale: 0
+  - texture: {fileID: 2800000, guid: 793969d27e380c1459fd59d974d588d5, type: 3}
+    tint: {r: 0.63664013, g: 0.6431373, b: 0.00784313, a: 0}
+    tintStrength: 0
+    startHeight: 0.116
+    blendStrength: 0
+    textureScale: 0
+  - texture: {fileID: 2800000, guid: 793969d27e380c1459fd59d974d588d5, type: 3}
+    tint: {r: 0.5471698, g: 0.47853878, b: 0, a: 0}
+    tintStrength: 0
+    startHeight: 0.417
+    blendStrength: 0
+    textureScale: 0

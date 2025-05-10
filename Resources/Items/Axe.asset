@@ -15,10 +15,11 @@ MonoBehaviour:
   itemName: Axe
   price: 0
   maxStack: 1
-  icon: {fileID: 21300000, guid: aa9bd098e95560042b6dd3d85249a631, type: 3}
+  icon: {fileID: 21300000, guid: fe49f9b8deb5ac94698bd212c6cb7d3e, type: 3}
   itemType: 0
-  toolPrefab: {fileID: 6693992346860750626, guid: b41dd1f1582175543855b29aa7d9c118, type: 3}
+  itemDrop: {fileID: 8449305850360192197, guid: 3a0140b2e7a264c48b29f7b8b02c5777, type: 3}
+  toolPrefab: {fileID: 7743267534191036308, guid: 7f44c95f8d814dd41b0f2e515a1e98ea, type: 3}
   toolType: 0
-  durability: 72
+  durability: 96
   damage: 20
-  range: 5
+  range: 2

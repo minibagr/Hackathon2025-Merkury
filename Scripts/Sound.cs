@@ -1,9 +1,14 @@
 using UnityEngine;
 
 public class Sound : MonoBehaviour {
-    [SerializeField] private AudioSource audioSource;
+    public AudioSource audioSource;
     [SerializeField] private float pitch = 1.0f;
     [SerializeField] private Vector2 range;
+    [SerializeField] private bool playOnAwake;
+
+    private void Awake() {
+        if (playOnAwake) PlaySound();
+    }
 
     public void PlaySound() {
         if (audioSource != null && !audioSource.isPlaying) {

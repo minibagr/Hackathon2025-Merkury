@@ -14,6 +14,11 @@ public class CameraMove : MonoBehaviour {
     private Quaternion startRot;
     private float elapsedTime = 0f;
     private bool lockState;
+    [SerializeField] private bool blockedState = false;
+
+    private void Awake() {
+        blocked = blockedState;
+    }
 
     public void MoveCamera() {
         lockState = !ObjectLock.active;

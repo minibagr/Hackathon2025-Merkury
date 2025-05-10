@@ -790,6 +790,7 @@ GameObject:
   - component: {fileID: 1296593317668144455}
   - component: {fileID: 8846942540310371607}
   - component: {fileID: 7315861564111959006}
+  - component: {fileID: 2962637816308393073}
   m_Layer: 0
   m_Name: Shop
   m_TagString: Untagged
@@ -926,7 +927,9 @@ MonoBehaviour:
   itemName: {fileID: 2637849899117732857}
   price: {fileID: 5068068615564555671}
   img: {fileID: 8848277031073361462}
-  money: {fileID: 0}
+  sound: {fileID: 0}
+  errorSound: {fileID: 8300000, guid: d85438a99a7222b4388d3c9dd051dfa4, type: 3}
+  successSound: {fileID: 8300000, guid: 9df385c877a59c04f934a9e3999fd5f0, type: 3}
 --- !u!82 &1296593317668144455
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1136,6 +1139,19 @@ MonoBehaviour:
   audioSource: {fileID: 8846942540310371607}
   pitch: 1
   range: {x: -0.1, y: 0.1}
+  playOnAwake: 0
+--- !u!114 &2962637816308393073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3967392597276393147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 085dac0ba876806449651e5560600e17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4253550208581005692
 GameObject:
   m_ObjectHideFlags: 0

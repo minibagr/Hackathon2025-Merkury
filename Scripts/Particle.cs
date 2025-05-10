@@ -1,10 +1,11 @@
 using UnityEngine;
 
 public class Particle : MonoBehaviour {
-    [SerializeField] private ParticleSystem particleSystem;
+    public ParticleSystem particleSystem;
+    public Sound sound;
 
     void Update() {
-        if (particleSystem.isPlaying) return;
+        if ((particleSystem && particleSystem.isPlaying) || (sound && sound.audioSource.isPlaying)) return;
 
         Destroy(gameObject);
     }

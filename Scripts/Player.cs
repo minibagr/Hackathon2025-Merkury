@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     public static Inventory inventory;
     public static Quaternion cameraRotation;
     public static float mouseSensitivity = 5f;
+    public static bool disableInvetoryUI = true;
 
     [SerializeField] private Transform playerCamera;
     [SerializeField] private Sound sound;
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject itemHolder;
     [SerializeField] private GameObject MenuUI;
     [SerializeField] private GameObject DisableUI;
+    [SerializeField] private Canvas InvetoryUI;
 
     /* --- | Code | --- */
     public void Start() {
@@ -40,8 +42,12 @@ public class Player : MonoBehaviour
         if (Time.timeScale == 0 || !ObjectLock.active) {
             if (moveDir.sqrMagnitude > 0) rb.linearVelocity = Vector3.zero;
             itemHolder.SetActive(false);
+            if (disableInvetoryUI) InvetoryUI.enabled = false;
             return;
-        } else itemHolder.SetActive(true);
+        } else {
+            itemHolder.SetActive(true);
+            if (disableInvetoryUI) InvetoryUI.enabled = true;
+        }
 
         /* --- | Camera | --- */
         float mouseX = Input.GetAxis("Mouse X");

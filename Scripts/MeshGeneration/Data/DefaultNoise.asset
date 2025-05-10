@@ -12,16 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625d42c124a25d54fa2ccfe6d525931f, type: 3}
   m_Name: DefaultNoise
   m_EditorClassIdentifier: 
+  autoUpdate: 0
   noiseSettings:
     normalizeMode: 1
     scale: 40
     octaves: 6
-    persistance: 0.6
+    persistance: 0.5
     lacunarity: 2
-    seed: 59
+    seed: 20
     offset: {x: 0, y: 0}
   useFalloff: 0
-  heightMultiplier: 50
+  heightMultiplier: 80
   heightCurve:
     serializedVersion: 2
     m_Curve:

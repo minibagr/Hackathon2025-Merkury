@@ -8,6 +8,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6511396397826216280, guid: d1f5c8c2f26c70a4ba9e6053a7118dab, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: daf210dfd7976774d88cfd4cb8fbfc88, type: 3}
+    - target: {fileID: -6511396397826216280, guid: d1f5c8c2f26c70a4ba9e6053a7118dab, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: daf210dfd7976774d88cfd4cb8fbfc88, type: 3}
+    - target: {fileID: 8628543945243009877, guid: d1f5c8c2f26c70a4ba9e6053a7118dab, type: 3}
+      propertyPath: sound
+      value: 
+      objectReference: {fileID: 8300000, guid: daf210dfd7976774d88cfd4cb8fbfc88, type: 3}
     - target: {fileID: 8628543945243009877, guid: d1f5c8c2f26c70a4ba9e6053a7118dab, type: 3}
       propertyPath: health
       value: 40
@@ -16,6 +28,14 @@ PrefabInstance:
       propertyPath: material
       value: 
       objectReference: {fileID: 11400000, guid: a9a5f6679a9296d48902baf7d49dcc0a, type: 2}
+    - target: {fileID: 8628543945243009877, guid: d1f5c8c2f26c70a4ba9e6053a7118dab, type: 3}
+      propertyPath: dropObject
+      value: 
+      objectReference: {fileID: 7554401723676515140, guid: 4dac3fd04937401408b098d7e9dbcb8e, type: 3}
+    - target: {fileID: 8628543945243009877, guid: d1f5c8c2f26c70a4ba9e6053a7118dab, type: 3}
+      propertyPath: destroySound
+      value: 
+      objectReference: {fileID: 8300000, guid: 3d4e73de04c10564a973cc189ee673a3, type: 3}
     - target: {fileID: 8628543945243009877, guid: d1f5c8c2f26c70a4ba9e6053a7118dab, type: 3}
       propertyPath: particleColor.b
       value: 0.5018867

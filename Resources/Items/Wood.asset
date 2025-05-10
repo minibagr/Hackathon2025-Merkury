@@ -15,7 +15,8 @@ MonoBehaviour:
   itemName: Wood
   price: 0
   maxStack: 5
-  icon: {fileID: 21300000, guid: 64c0251682246d047b82ece3f278aaa5, type: 3}
+  icon: {fileID: 21300000, guid: 53726c95ad2692a4784294b513ea9bc8, type: 3}
   itemType: 2
+  itemDrop: {fileID: 7929162815557471550, guid: abe86e61bc623f542ab45fbc8de5e2ec, type: 3}
   subItemType: 0
   materialType: 0

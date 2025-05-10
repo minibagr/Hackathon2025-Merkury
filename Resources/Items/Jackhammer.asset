@@ -17,8 +17,9 @@ MonoBehaviour:
   maxStack: 1
   icon: {fileID: 21300000, guid: b22aea908d7491940b682ac9dafc5e35, type: 3}
   itemType: 0
+  itemDrop: {fileID: 3785561485241758696, guid: 78a57ed0b7b03714f879ab135c54ef5d, type: 3}
   toolPrefab: {fileID: 6693992346860750626, guid: b41dd1f1582175543855b29aa7d9c118, type: 3}
   toolType: 1
-  durability: 88
+  durability: 100
   damage: 10
-  range: 3
+  range: 2

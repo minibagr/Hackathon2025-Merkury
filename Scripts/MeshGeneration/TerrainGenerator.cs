@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 
 public class TerrainGenerator : MonoBehaviour
 {
@@ -27,9 +28,15 @@ public class TerrainGenerator : MonoBehaviour
 
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
     List<TerrainChunk> visibleTerrainChunks = new List<TerrainChunk>();
+    List<MaterialType> materials = new List<MaterialType>();
 
-    void Start()
+    public void CreateTerrain(Biome currentBiome, List<MaterialType> materials)
     {
+        this.materials = materials;
+        heightMapSettings = currentBiome.heightMapSettings;
+        meshSettings = currentBiome.meshSettings;
+        textureSettings = currentBiome.textureData;
+        currentBiome.heightMapSettings.noiseSettings.seed = Random.Range(int.MinValue, int.MaxValue);
 
         textureSettings.ApplyToMaterial(mapMaterial);
         textureSettings.UpdateMeshHeights(mapMaterial, heightMapSettings.minHeight, heightMapSettings.maxHeight);
@@ -38,20 +45,59 @@ public class TerrainGenerator : MonoBehaviour
         meshWorldSize = meshSettings.meshWorldSize;
         chunksVisibleInViewDst = Mathf.RoundToInt(maxViewDst / meshWorldSize);
 
-        SpawnPlayerAtCenter();
+        Debug.Log("Creating Terrain");
 
         UpdateVisibleChunks();
+        SpawnPlayerAtCenter();
     }
+
+    private void SpawnMaterialsInChunk(TerrainChunk chunk, MeshData meshData)
+    {
+        Debug.Log("Spawning materials in chunk");
+
+        Vector3[] vertices = meshData.vertices;
+        Vector2 position = chunk.coord * chunk.meshSettings.meshWorldSize;
+
+        // Define how many materials we want to spawn
+        int count = 50;
+        Vector3[] positions = new Vector3[count];
+        GameObject[] prefabs = new GameObject[count];
+
+        float chunkSize = meshSettings.meshWorldSize;
+        float spacing = chunkSize / meshSettings.numVertsPerLine;
+
+        // Loop to spawn materials based on mesh height
+        for (int i = 0; i < count; i++)
+        {
+            int random = Random.Range(0, vertices.Length);
+
+            positions[i] = new Vector3(position.x + vertices[random].x, vertices[random].y, position.y + vertices[random].z);
+
+            // Select a random prefab material from the materials list
+            int prefabIndex = Random.Range(0, materials.Count);
+            prefabs[i] = materials[prefabIndex].prefab;
+        }
+
+        // Instantiate the selected materials at the calculated positions
+        for (int i = 0; i < count; i++)
+        {
+            GameObject mat = Instantiate(prefabs[i], positions[i], Quaternion.identity, chunk.meshObject.transform);
+            mat.transform.position = positions[i];
+        }
+    }
+
+
 
     void SpawnPlayerAtCenter()
     {
+        viewer.parent.gameObject.SetActive(true);
         // Get the center of the terrain
         float centerX = meshSettings.numVertsPerLine / 2;
         float centerY = meshSettings.numVertsPerLine / 2;
 
         // Use the height map to find the height at the center position
         HeightMap heightMap = HeightMapGenerator.GenerateHeightMap(meshSettings.numVertsPerLine, meshSettings.numVertsPerLine, heightMapSettings, Vector2.zero);
-        float centerHeight = heightMap.values[(int)centerX, (int)centerY];
+        float centerHeight = heightMap.values[(int)centerX, (int)centerY] + 2;
 
         // Create the player at the center
         Vector3 spawnPosition = new Vector3(centerX, centerHeight, centerY);
@@ -102,8 +148,10 @@ public class TerrainGenerator : MonoBehaviour
                     }
                     else
                     {
-                        TerrainChunk newChunk = new TerrainChunk(viewedChunkCoord, heightMapSettings, meshSettings, detailLevels, colliderLODIndex, transform, viewer, mapMaterial);
+                        TerrainChunk newChunk = new TerrainChunk(viewedChunkCoord, heightMapSettings, meshSettings, detailLevels, colliderLODIndex, transform, viewer, mapMaterial, OnHeightMapLoaded);
                         terrainChunkDictionary.Add(viewedChunkCoord, newChunk);
+
+                        //newChunk.onHeightMapLoaded += OnHeightMapLoaded;
                         newChunk.onVisibilityChanged += OnTerrainChunkVisibilityChanged;
                         newChunk.Load();
                     }
@@ -111,6 +159,11 @@ public class TerrainGenerator : MonoBehaviour
 
             }
         }
+    }
+
+    private void OnHeightMapLoaded(TerrainChunk chunk, MeshData lodMeshes)
+    {
+        SpawnMaterialsInChunk(chunk, lodMeshes); // Call the method once the height map is loaded
     }
 
     void OnTerrainChunkVisibilityChanged(TerrainChunk chunk, bool isVisible)

@@ -4,12 +4,7 @@ public class ZoomTo : MonoBehaviour {
     [SerializeField] private float speed = 1;
     [SerializeField] private Vector3 rotation;
     [SerializeField] private bool block;
-
-    void Update() {
-        if (Input.GetKeyDown(KeyCode.L)) {
-            Zoom();
-        }
-    }
+    [SerializeField] private bool blockInvetory;
 
     public void Zoom() {
         if (CameraMove.isMoving) return;
@@ -18,6 +13,7 @@ public class ZoomTo : MonoBehaviour {
         CameraMove.duration = speed;
         CameraMove.targetRot = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
         CameraMove.blockIfZoomed = block;
+        Player.disableInvetoryUI = blockInvetory;
         CameraMove.updated = true;
     }
 }
